@@ -1,22 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
-local function GetClosestHouse(source)
-    local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
-    local ClosestHouse
-    for i = 1, #Config.OpenHouses do
-        if #(PlayerCoords - Config.OpenHouses[i].center) <= 30 then
-            if ClosestHouse then
-                if #(PlayerCoords - Config.OpenHouses[i].center) < #(PlayerCoords - ClosestHouse.center) then
-                    ClosestHouse = Config.OpenHouses[i]
-                end
-            else
-                ClosestHouse = Config.OpenHouses[i]
-            end
-        end
-    end
-    return ClosestHouse
-end
-
 QBCore.Commands.Add('createopenhouse', Lang:t('command.create_house'), {{name = 'House Name', help = Lang:t('command.name_of_house')}, {name = 'Owner CID | ID', help = Lang:t('command.owner_cid')}}, true, function(source, args)
     local src = source
     local HouseName = tostring(args[1])
@@ -42,14 +23,6 @@ QBCore.Commands.Add('createopenhouse', Lang:t('command.create_house'), {{name = 
     TriggerClientEvent('dc-open-houses:client:sync', -1, Config.OpenHouses)
 end, 'admin')
 
-QBCore.Commands.Add('addstash', Lang:t('command.create_stash'), {}, false, function(source)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local ClosestHouse = GetClosestHouse(src)
-    if not ClosestHouse then TriggerClientEvent('QBCore:Notify', src, Lang:t('error.not_nearby_house'), 'error') return end
-    if Player.PlayerData.citizenid ~= ClosestHouse.owner and not QBCore.Functions.HasPermission(src, 'admin') then TriggerClientEvent('QBCore:Notify', src, Lang:t('error.no_perms'), 'error') return end
-end)
-
 QBCore.Commands.Add('deleteallhouses', Lang:t('command.delete_all'), {}, false, function(source)
     local Lenght = GetResourceKvpInt("Housescount") or 0
     for i = 1, Lenght do
@@ -61,9 +34,10 @@ QBCore.Commands.Add('deleteallhouses', Lang:t('command.delete_all'), {}, false, 
     TriggerClientEvent('dc-open-houses:client:sync', -1, Config.OpenHouses)
 end, 'god')
 
-CreateThread(function()
-    local Lenght = GetResourceKvpInt("Housescount") or 0
-    for i = 1, Lenght do
-        Config.OpenHouses[i] = json.decode(GetResourceKvpString('Openhouse_'..tostring(i)))
-    end
+QBCore.Commands.Add('addstash', Lang:t('command.create_stash'), {}, false, function(source)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    local ClosestHouse = GetClosestHouse(src)
+    if not ClosestHouse then TriggerClientEvent('QBCore:Notify', src, Lang:t('error.not_nearby_house'), 'error') return end
+    if Player.PlayerData.citizenid ~= ClosestHouse.owner and not QBCore.Functions.HasPermission(src, 'admin') then TriggerClientEvent('QBCore:Notify', src, Lang:t('error.no_perms'), 'error') return end
 end)

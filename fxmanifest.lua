@@ -13,6 +13,9 @@ shared_scripts {
 }
 
 client_script 'client.lua'
-server_script 'server.lua'
+server_scripts {
+    'server/main.lua',
+    'server/commands.lua'
+}
 
 lua54 'yes'
