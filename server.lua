@@ -52,9 +52,10 @@ end)
 
 QBCore.Commands.Add('deleteallhouses', Lang:t('command.delete_all'), {}, false, function(source)
     local Lenght = GetResourceKvpInt("Housescount") or 0
-    for i = 1, #Lenght do
+    for i = 1, Lenght do
         DeleteResourceKvpNoSync('Openhouse_'..tostring(i))
     end
+    SetResourceKvpIntNoSync('Housescount', 0)
     FlushResourceKvp()
     Config.OpenHouses = {}
     TriggerClientEvent('dc-open-houses:client:sync', -1, Config.OpenHouses)
@@ -62,7 +63,7 @@ end, 'god')
 
 CreateThread(function()
     local Lenght = GetResourceKvpInt("Housescount") or 0
-    for i = 1, #Lenght do
-        Config.OpenHouses[i] = json.decode(GetResourceKvp('Openhouse_'..tostring(i)))
+    for i = 1, Lenght do
+        Config.OpenHouses[i] = json.decode(GetResourceKvpString('Openhouse_'..tostring(i)))
     end
 end)
