@@ -28,6 +28,7 @@ QBCore.Commands.Add('deleteallhouses', Lang:t('command.delete_all'), {}, false, 
     for i = 1, Lenght do
         DeleteResourceKvpNoSync('Openhouse_'..tostring(i))
     end
+    TriggerClientEvent('QBCore:Notify', source, Lang:t('info.deleted_houses', {amount = Lenght}))
     SetResourceKvpIntNoSync('Housescount', 0)
     FlushResourceKvp()
     Config.OpenHouses = {}

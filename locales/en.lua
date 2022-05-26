@@ -8,7 +8,7 @@ local Translations = {
         ['create_house'] = 'Succesfully created %{house} for %{owner}'
     },
     info = {
-
+        ['deleted_houses'] = 'Deleted %{amount} house(s)'
     },
     text = {
         ['open_stash'] = 'Open Stash',
