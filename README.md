@@ -5,7 +5,9 @@
 An housing system to support open interior houses as owned housing for players.
 This is not a job related resource. This is operated by staff since 9/10 these kind of houses are sold by staff anyways.
 It is expected that you have the latest version of [qb-doorlock](https://github.com/qbcore-framework/qb-doorlock).
-THIS DOESN'T WORK WITH HOUSES THAT DON'T HAVE OPEN DOORS TO ENTER BUT NEED TELEPORTATION!!!
+
+<sub>**THIS DOESN'T WORK WITH HOUSES THAT DON'T HAVE OPEN DOORS TO ENTER BUT NEED TELEPORTATION!!!**</sub>
+
 #### *Might* be supported in the future
 
 You can always find support [here](https://discord.gg/SqRsSsSskg) in our Discord.
@@ -21,6 +23,7 @@ Now use the command `createopenhouse` along with the name of the house <sub>The 
 ## 2. Setting up the doors
 
 Go stand in the middle of the door so that the door will be pushed half open. Now use the command `adddoor` along side with an **unique** name <sub>**Copy** the name, you will need it later.</sub>. Now use the `newdoor` command to create a new door inside of `qb-doorlock`. The configuration of the door should look like the following screenshot. Important points being: HouseName should be the name of the house you are in now. Makes it easier to find the doors back inside of `qb-doorlock`. Copied DoorName being the same name you used when doing the `adddoor` command.
+
 [x] Locked
 [x] Can't Unlock
 [x] Hide Door Label
