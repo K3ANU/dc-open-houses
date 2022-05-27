@@ -35,7 +35,7 @@ CreateThread(function()
             end
         end
         if not Nearby then ClosestHouse = nil end
-        Wait(2500)
+        Wait(2000)
     end
 end)
 
@@ -45,31 +45,23 @@ CreateThread(function()
         if ClosestHouse then
             local PlayerCoords = GetEntityCoords(PlayerPedId())
             WaitTime = 700
-            if ClosestHouse.stash then
-                if #(PlayerCoords - ClosestHouse.stash) <= 1.8 then
-                    WaitTime = 0
-                    DrawText3D(ClosestHouse.stash.x, ClosestHouse.stash.y, ClosestHouse.stash.z + 0.5, '~o~E~w~ - '..Lang:t('text.open_stash'))
-                    if IsControlJustPressed(0, 38) then
-                        QBCore.Functions.Notify('TextHere', 'error', 7500)
-                    end
+            if #(PlayerCoords - ClosestHouse.stash) <= 1.8 then
+                WaitTime = 0
+                DrawText3D(ClosestHouse.stash.x, ClosestHouse.stash.y, ClosestHouse.stash.z, '~o~E~w~ - '..Lang:t('text.open_stash'))
+                if IsControlJustPressed(0, 38) then
+                    QBCore.Functions.Notify('TextHere', 'error', 7500)
                 end
-            end
-            if ClosestHouse.outfit then
-                if #(PlayerCoords - ClosestHouse.outfit) <= 1.8 then
-                    WaitTime = 0
-                    DrawText3D(ClosestHouse.outfit.x, ClosestHouse.outfit.y, ClosestHouse.outfit.z + 0.5, '~o~E~w~ - '..Lang:t('text.change_outfit'))
-                    if IsControlJustPressed(0, 38) then
-                        QBCore.Functions.Notify('TextHere', 'error', 7500)
-                    end
+            elseif #(PlayerCoords - ClosestHouse.outfit) <= 1.8 then
+                WaitTime = 0
+                DrawText3D(ClosestHouse.outfit.x, ClosestHouse.outfit.y, ClosestHouse.outfit.z, '~o~E~w~ - '..Lang:t('text.change_outfit'))
+                if IsControlJustPressed(0, 38) then
+                    QBCore.Functions.Notify('TextHere', 'error', 7500)
                 end
-            end
-            if ClosestHouse.logout then
-                if #(PlayerCoords - ClosestHouse.logout) <= 1.8 then
-                    WaitTime = 0
-                    DrawText3D(ClosestHouse.logout.x, ClosestHouse.logout.y, ClosestHouse.logout.z + 0.5, '~o~E~w~ - '..Lang:t('text.change_char'))
-                    if IsControlJustPressed(0, 38) then
-                        QBCore.Functions.Notify('TextHere', 'error', 7500)
-                    end
+            elseif #(PlayerCoords - ClosestHouse.logout) <= 1.8 then
+                WaitTime = 0
+                DrawText3D(ClosestHouse.logout.x, ClosestHouse.logout.y, ClosestHouse.logout.z, '~o~E~w~ - '..Lang:t('text.change_char'))
+                if IsControlJustPressed(0, 38) then
+                    QBCore.Functions.Notify('TextHere', 'error', 7500)
                 end
             end
         else

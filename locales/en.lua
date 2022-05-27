@@ -5,7 +5,10 @@ local Translations = {
         ['no_perms'] = 'You have no permission to do this'
     },
     success = {
-        ['create_house'] = 'Succesfully created %{house} for %{owner}'
+        ['create_house'] = 'Succesfully created %{house} for %{owner}',
+        ['create_stash'] = 'Succesfully created stash inside of %{house}',
+        ['create_outfit'] = 'Succesfully created wardrobe inside of %{house}',
+        ['create_logout'] = 'Succesfully created bed inside of %{house}'
     },
     info = {
         ['deleted_houses'] = 'Deleted %{amount} house(s)'
@@ -19,8 +22,10 @@ local Translations = {
         ['create_house'] = 'Create an open interior house. Your current location should be the center of the house',
         ['name_of_house'] = 'The name of the house (Unique)',
         ['owner_cid'] = 'The citizenid of the owner (Case sensitive) or server id',
+        ['delete_all'] = 'Delete all the houses there are',
         ['create_stash'] = 'Create a stash at your current location in your house',
-        ['delete_all'] = 'Delete all the houses there are'
+        ['create_outfit'] = 'Create a wardrobe at your current location in your house',
+        ['create_logout'] = 'Create a bed at your current location in your house'
     }
 }
 

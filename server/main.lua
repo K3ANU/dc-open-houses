@@ -2,19 +2,19 @@ QBCore = exports['qb-core']:GetCoreObject()
 
 function GetClosestHouse(source)
     local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
-    local ClosestHouse
+    local ClosestHouseIndex
     for i = 1, #Config.OpenHouses do
         if #(PlayerCoords - Config.OpenHouses[i].center) <= 30 then
-            if ClosestHouse then
-                if #(PlayerCoords - Config.OpenHouses[i].center) < #(PlayerCoords - ClosestHouse.center) then
-                    ClosestHouse = Config.OpenHouses[i]
+            if ClosestHouseIndex then
+                if #(PlayerCoords - Config.OpenHouses[i].center) < #(PlayerCoords - Config.OpenHouses[ClosestHouseIndex].center) then
+                    ClosestHouseIndex = i
                 end
             else
-                ClosestHouse = Config.OpenHouses[i]
+                ClosestHouseIndex = i
             end
         end
     end
-    return ClosestHouse
+    return ClosestHouseIndex
 end
 
 CreateThread(function()
@@ -27,12 +27,11 @@ CreateThread(function()
             doors = House.doors,
             keyholders = House.keyholders,
             center = vector3(House.center.x, House.center.y, House.center.z),
-            stash = House.stash,
-            outfit = House.outfit,
-            logout = House.logout,
-            garage = House.garage
+            stash = vector3(House.stash.x, House.stash.y, House.stash.z),
+            outfit = vector3(House.outfit.x, House.outfit.y, House.outfit.z),
+            logout = vector3(House.logout.x, House.logout.y, House.logout.z),
+            garage = vector3(House.garage.x, House.garage.y, House.garage.z)
         }
-        print(Config.OpenHouses[i].center)
     end
     Wait(50)
     TriggerClientEvent('dc-open-houses:client:sync', -1, Config.OpenHouses)
