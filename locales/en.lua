@@ -16,6 +16,7 @@ local Translations = {
         ['create_door'] = 'Succesfully created a door inside of %{house}',
         ['give_keys'] = 'Gave keys to %{target}',
         ['remove_keys'] = 'Removed keys from %{target}',
+        ['deleted_house'] = 'Succesfully deleted %{house}',
     },
     info = {
         ['deleted_houses'] = 'Deleted %{amount} house(s)',
@@ -29,7 +30,7 @@ local Translations = {
     },
     command = {
         ['create_house'] = 'Create an open interior house. Your current location should be the center of the house',
-        ['name_of_house'] = 'The name of the house (Unique)',
+        ['name_of_house'] = 'The name of the house (Unique)(Case sensitive)',
         ['owner_cid'] = 'The citizenid of the owner (Case sensitive) or server id',
         ['delete_all'] = 'Delete all the houses there are',
         ['create_stash'] = 'Create a stash at your current location in your house',
@@ -40,6 +41,7 @@ local Translations = {
         ['give_keys'] = 'Give keys to someone else at the current house you are at',
         ['target_keys'] = 'The citizenid of the target (Case sensitive) or server id',
         ['remove_keys'] = 'Remove keys from someone else at the current house you are at',
+        ['delete_house'] = 'Delete a specific house',
     }
 }
 

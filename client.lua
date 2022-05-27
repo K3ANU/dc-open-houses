@@ -1,5 +1,7 @@
+local QBCore = exports['qb-core']:GetCoreObject()
 local ClosestHouse
 local ClosestHouseIndex
+local Blips = {}
 
 local function DrawText3D(x, y, z, text)
     SetTextScale(0.35, 0.35)
@@ -15,6 +17,54 @@ local function DrawText3D(x, y, z, text)
     DrawRect(0.0, 0.0+0.0125, 0.017+ factor, 0.03, 0, 0, 0, 75)
     ClearDrawOrigin()
 end
+
+AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+    local CitizenID = QBCore.Functions.GetPlayerData().citizenid
+    for i = 1, #Config.OpenHouses do
+        if Config.OpenHouses[i].owner == CitizenID then
+            local House = Config.OpenHouses[i]
+            HouseBlip = AddBlipForCoord(House.center)
+            SetBlipSprite(HouseBlip, 40)
+            SetBlipDisplay(HouseBlip, 4)
+            SetBlipScale(HouseBlip, 0.65)
+            SetBlipAsShortRange(HouseBlip, true)
+            SetBlipColour(HouseBlip, 3)
+            BeginTextCommandSetBlipName('STRING')
+            AddTextComponentSubstringPlayerName(House.house)
+            EndTextCommandSetBlipName(HouseBlip)
+            Blips[#Blips+1] = HouseBlip
+        end
+    end
+end)
+
+RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+    for i = 1, #Blips do
+        RemoveBlip(Blips[i])
+    end
+end)
+
+RegisterNetEvent('dc-open-houses:client:CreateBlip', function(HouseCoords, HouseName)
+    HouseBlip = AddBlipForCoord(HouseCoords)
+    SetBlipSprite(HouseBlip, 40)
+    SetBlipDisplay(HouseBlip, 4)
+    SetBlipScale(HouseBlip, 0.65)
+    SetBlipAsShortRange(HouseBlip, true)
+    SetBlipColour(HouseBlip, 3)
+    BeginTextCommandSetBlipName('STRING')
+    AddTextComponentSubstringPlayerName(HouseName)
+    EndTextCommandSetBlipName(HouseBlip)
+    Blips[#Blips+1] = HouseBlip
+end)
+
+RegisterNetEvent('dc-open-houses:client:DeleteBlip', function(HouseCoords)
+    for i = 1, #Blips do
+        if GetBlipCoords(Blips[i]) == HouseCoords then
+            RemoveBlip(Blips[i])
+            table.remove(Blips, i)
+            break
+        end
+    end
+end)
 
 --- Check if the player is nearby an open house. To prevent all the other threads to keep running all the time.
 --- If you have really big houses increase the range down below.

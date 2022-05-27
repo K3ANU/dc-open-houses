@@ -21,6 +21,7 @@ QBCore.Commands.Add('createopenhouse', Lang:t('command.create_house'), {{name = 
     SetResourceKvpInt('Housescount', AmountOfHouses)
     TriggerClientEvent('QBCore:Notify', src, Lang:t('success.create_house', {house = HouseName, owner = Owner.PlayerData.charinfo.firstname}), 'success')
     TriggerClientEvent('dc-open-houses:client:sync', -1, Config.OpenHouses)
+    TriggerClientEvent('dc-open-houses:client:CreateBlip', Owner.PlayerData.source, PlayerCoords, HouseName)
 end, 'admin')
 
 QBCore.Commands.Add('deleteallhouses', Lang:t('command.delete_all'), {}, false, function(source)
@@ -32,6 +33,22 @@ QBCore.Commands.Add('deleteallhouses', Lang:t('command.delete_all'), {}, false, 
     SetResourceKvpIntNoSync('Housescount', 0)
     FlushResourceKvp()
     Config.OpenHouses = {}
+    TriggerClientEvent('dc-open-houses:client:sync', -1, Config.OpenHouses)
+end, 'god')
+
+QBCore.Commands.Add('deleteopenhouse', Lang:t('command.delete_house'), {{name = 'House Name', help = Lang:t('command.name_of_house')}}, true, function(source, args)
+    for i = 1, #Config.OpenHouses do
+        if Config.OpenHouses[i].house == tostring(args[1]) then
+            DeleteResourceKvpNoSync('Openhouse_'..tostring(i))
+            SetResourceKvpIntNoSync('Housescount', #Config.OpenHouses - 1)
+            TriggerClientEvent('QBCore:Notify', source, Lang:t('success.deleted_house', {house = tostring(args[1])}), 'success')
+            local Owner = QBCore.Functions.GetPlayerByCitizenId(Config.OpenHouses[i].owner)
+            TriggerClientEvent('dc-open-houses:client:DeleteBlip', Owner.PlayerData.source, Config.OpenHouses[i].center)
+            table.remove(Config.OpenHouses, i)
+            break
+        end
+    end
+    FlushResourceKvp()
     TriggerClientEvent('dc-open-houses:client:sync', -1, Config.OpenHouses)
 end, 'god')
 
