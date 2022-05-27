@@ -4,6 +4,9 @@ local Translations = {
         ['not_nearby_house'] = 'You are not near a house',
         ['no_perms'] = 'You have no permission to do this',
         ['not_keyholder'] = 'You have no keys for this house',
+        ['target_not_found'] = 'Target not found',
+        ['cant_give_keys_to_self'] = 'You can\'t give yourself keys',
+        ['cant_remove_keys_from_self'] = 'You can\'t remove yourself',
     },
     success = {
         ['create_house'] = 'Succesfully created %{house} for %{owner}',
@@ -11,6 +14,8 @@ local Translations = {
         ['create_outfit'] = 'Succesfully created wardrobe inside of %{house}',
         ['create_logout'] = 'Succesfully created bed inside of %{house}',
         ['create_door'] = 'Succesfully created a door inside of %{house}',
+        ['give_keys'] = 'Gave keys to %{target}',
+        ['remove_keys'] = 'Removed keys from %{target}',
     },
     info = {
         ['deleted_houses'] = 'Deleted %{amount} house(s)',
@@ -32,6 +37,9 @@ local Translations = {
         ['create_logout'] = 'Create a bed at your current location in your house',
         ['create_door'] = 'Create a door at your current location in your house',
         ['door_name'] = 'The name of the door inside of your doorlock resource (IMPORTANT)',
+        ['give_keys'] = 'Give keys to someone else at the current house you are at',
+        ['target_keys'] = 'The citizenid of the target (Case sensitive) or server id',
+        ['remove_keys'] = 'Remove keys from someone else at the current house you are at',
     }
 }
 
