@@ -1,6 +1,6 @@
 QBCore = exports['qb-core']:GetCoreObject()
 
-function GetClosestHouse(source)
+function GetClosestHouseIndex(source)
     local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
     local ClosestHouseIndex
     for i = 1, #Config.OpenHouses do
@@ -17,14 +17,46 @@ function GetClosestHouse(source)
     return ClosestHouseIndex
 end
 
+function IsKeyholder(CitizenID, House)
+    for i = 1, #House.keyholders do
+        if House.keyholders[i] == CitizenID then
+            return true
+        end
+    end
+    return false
+end
+
+RegisterNetEvent('dc-open-houses:server:DoorInteract', function(HouseIndex, DoorIndex, LockState)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    local PlayerCoords = GetEntityCoords(GetPlayerPed(src))
+    local House = Config.OpenHouses[HouseIndex]
+
+    if #(PlayerCoords - House.doors[DoorIndex].coords) > 5 then return end
+    if not IsKeyholder(Player.PlayerData.citizenid, House) and Player.PlayerData.citizenid ~= House.owner then TriggerClientEvent('QBCore:Notify', src, Lang:t('error.not_keyholder'), 'error') return end
+
+    House.doors[DoorIndex].locked = LockState
+    SetResourceKvp('Openhouse_'..tostring(HouseIndex), json.encode(House))
+    TriggerEvent('qb-doorlock:server:updateState', House.doors[DoorIndex].name, LockState, false, false, true, true, true, src)
+    TriggerClientEvent('dc-open-houses:client:sync', -1, Config.OpenHouses)
+end)
+
 CreateThread(function()
     local Lenght = GetResourceKvpInt("Housescount") or 0
+    local Doors = {}
     for i = 1, Lenght do
         local House = json.decode(GetResourceKvpString('Openhouse_'..tostring(i)))
+        for i = 1, #House.doors do
+            Doors[i] = {
+                name = House.doors[i].name,
+                coords = vector3(House.doors[i].coords.x, House.doors[i].coords.y, House.doors[i].coords.z),
+                locked = true
+            }
+        end
         Config.OpenHouses[i] = {
             house = House.house,
             owner = House.owner,
-            doors = House.doors,
+            doors = Doors,
             keyholders = House.keyholders,
             center = vector3(House.center.x, House.center.y, House.center.z),
             stash = vector3(House.stash.x, House.stash.y, House.stash.z),

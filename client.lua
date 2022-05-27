@@ -38,7 +38,7 @@ CreateThread(function()
             end
         end
         if not Nearby then ClosestHouse = nil end
-        Wait(2000)
+        Wait(1500)
     end
 end)
 
@@ -70,6 +70,35 @@ CreateThread(function()
                     DoScreenFadeOut(250)
                     while not IsScreenFadedOut() do Wait(0) end
                     TriggerServerEvent('qb-houses:server:LogoutLocation')
+                end
+            end
+        else
+            WaitTime = 2000
+        end
+        Wait(WaitTime)
+    end
+end)
+
+CreateThread(function()
+    while true do
+        local WaitTime
+        if ClosestHouse then
+            local PlayerCoords = GetEntityCoords(PlayerPedId())
+            WaitTime = 700
+            for i = 1, #ClosestHouse.doors do
+                if #(PlayerCoords - ClosestHouse.doors[i].coords) <= 1.6 then
+                    WaitTime = 0
+                    if ClosestHouse.doors[i].locked then
+                        DrawText3D(ClosestHouse.doors[i].coords.x, ClosestHouse.doors[i].coords.y, ClosestHouse.doors[i].coords.z, '~o~E~w~ - '..Lang:t('text.open_door'))
+                        if IsControlJustPressed(0, 38) then
+                            TriggerServerEvent('dc-open-houses:server:DoorInteract', ClosestHouseIndex, i, false)
+                        end
+                    else
+                        DrawText3D(ClosestHouse.doors[i].coords.x, ClosestHouse.doors[i].coords.y, ClosestHouse.doors[i].coords.z, '~o~E~w~ - '..Lang:t('text.close_door'))
+                        if IsControlJustPressed(0, 38) then
+                            TriggerServerEvent('dc-open-houses:server:DoorInteract', ClosestHouseIndex, i, true)
+                        end
+                    end
                 end
             end
         else
