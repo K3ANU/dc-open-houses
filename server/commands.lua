@@ -4,7 +4,9 @@ QBCore.Commands.Add('createopenhouse', Lang:t('command.create_house'), {{name = 
     local Owner = QBCore.Functions.GetPlayer(tonumber(args[2]))
     if not Owner then Owner = QBCore.Functions.GetPlayerByCitizenId(tostring(args[2])) end
     if not Owner then TriggerClientEvent('QBCore:Notify', src, Lang:t('error.owner_not_found'), 'error') return end
-    local PlayerCoords = GetEntityCoords(GetPlayerPed(src))
+    local Ped = GetPlayerPed(src)
+    local PlayerCoords = GetEntityCoords(Ped)
+    local PlayerHeading = GetEntityHeading(Ped)
     local AmountOfHouses = (GetResourceKvpInt("Housescount") or 0) + 1
     Config.OpenHouses[AmountOfHouses] = {
         house = HouseName,
@@ -15,7 +17,8 @@ QBCore.Commands.Add('createopenhouse', Lang:t('command.create_house'), {{name = 
         stash = vector3(0, 0, -150),
         outfit = vector3(0, 0, -150),
         logout = vector3(0, 0, -150),
-        garage = vector3(0, 0, -150)
+        garage = vector3(0, 0, -150),
+        spawn = vector4(PlayerCoords.x, PlayerCoords.y, PlayerCoords.z, PlayerHeading)
     }
     SetResourceKvp('Openhouse_'..tostring(AmountOfHouses), json.encode(Config.OpenHouses[AmountOfHouses]))
     SetResourceKvpInt('Housescount', AmountOfHouses)
@@ -79,7 +82,8 @@ QBCore.Commands.Add('addstash', Lang:t('command.create_stash'), {}, false, funct
         stash = GetEntityCoords(GetPlayerPed(src)),
         outfit = vector3(House.outfit.x, House.outfit.y, House.outfit.z),
         logout = vector3(House.logout.x, House.logout.y, House.logout.z),
-        garage = vector3(House.garage.x, House.garage.y, House.garage.z)
+        garage = vector3(House.garage.x, House.garage.y, House.garage.z),
+        spawn = vector4(House.spawn.x, House.spawn.y, House.spawn.z, House.spawn.w)
     }
     SetResourceKvp('Openhouse_'..tostring(ClosestHouseIndex), json.encode(Config.OpenHouses[ClosestHouseIndex]))
     TriggerClientEvent('QBCore:Notify', src, Lang:t('success.create_stash', {house = Config.OpenHouses[ClosestHouseIndex].house}), 'success')
@@ -113,7 +117,8 @@ QBCore.Commands.Add('addoutfit', Lang:t('command.create_outfit'), {}, false, fun
         stash = vector3(House.stash.x, House.stash.y, House.stash.z),
         outfit = GetEntityCoords(GetPlayerPed(src)),
         logout = vector3(House.logout.x, House.logout.y, House.logout.z),
-        garage = vector3(House.garage.x, House.garage.y, House.garage.z)
+        garage = vector3(House.garage.x, House.garage.y, House.garage.z),
+        spawn = vector4(House.spawn.x, House.spawn.y, House.spawn.z, House.spawn.w)
     }
     SetResourceKvp('Openhouse_'..tostring(ClosestHouseIndex), json.encode(Config.OpenHouses[ClosestHouseIndex]))
     TriggerClientEvent('QBCore:Notify', src, Lang:t('success.create_outfit', {house = Config.OpenHouses[ClosestHouseIndex].house}), 'success')
@@ -147,7 +152,8 @@ QBCore.Commands.Add('addlogout', Lang:t('command.create_logout'), {}, false, fun
         stash = vector3(House.stash.x, House.stash.y, House.stash.z),
         outfit = vector3(House.outfit.x, House.outfit.y, House.outfit.z),
         logout = GetEntityCoords(GetPlayerPed(src)),
-        garage = vector3(House.garage.x, House.garage.y, House.garage.z)
+        garage = vector3(House.garage.x, House.garage.y, House.garage.z),
+        spawn = vector4(House.spawn.x, House.spawn.y, House.spawn.z, House.spawn.w)
     }
     SetResourceKvp('Openhouse_'..tostring(ClosestHouseIndex), json.encode(Config.OpenHouses[ClosestHouseIndex]))
     TriggerClientEvent('QBCore:Notify', src, Lang:t('success.create_logout', {house = Config.OpenHouses[ClosestHouseIndex].house}), 'success')
@@ -177,7 +183,8 @@ QBCore.Commands.Add('adddoor', Lang:t('command.create_door'), {{name = 'Door Nam
         stash = vector3(House.stash.x, House.stash.y, House.stash.z),
         outfit = vector3(House.outfit.x, House.outfit.y, House.outfit.z),
         logout = vector3(House.logout.x, House.logout.y, House.logout.z),
-        garage = vector3(House.garage.x, House.garage.y, House.garage.z)
+        garage = vector3(House.garage.x, House.garage.y, House.garage.z),
+        spawn = vector4(House.spawn.x, House.spawn.y, House.spawn.z, House.spawn.w)
     }
     SetResourceKvp('Openhouse_'..tostring(ClosestHouseIndex), json.encode(Config.OpenHouses[ClosestHouseIndex]))
     TriggerClientEvent('QBCore:Notify', src, Lang:t('success.create_door', {house = Config.OpenHouses[ClosestHouseIndex].house}), 'success')
@@ -217,7 +224,8 @@ QBCore.Commands.Add('givehousekeys', Lang:t('command.give_keys'), {{name = 'Targ
         stash = vector3(House.stash.x, House.stash.y, House.stash.z),
         outfit = vector3(House.outfit.x, House.outfit.y, House.outfit.z),
         logout = vector3(House.logout.x, House.logout.y, House.logout.z),
-        garage = vector3(House.garage.x, House.garage.y, House.garage.z)
+        garage = vector3(House.garage.x, House.garage.y, House.garage.z),
+        spawn = vector4(House.spawn.x, House.spawn.y, House.spawn.z, House.spawn.w)
     }
     SetResourceKvp('Openhouse_'..tostring(ClosestHouseIndex), json.encode(Config.OpenHouses[ClosestHouseIndex]))
     TriggerClientEvent('QBCore:Notify', src, Lang:t('success.give_keys', {target = Target.PlayerData.charinfo.firstname}), 'success')
@@ -262,7 +270,8 @@ QBCore.Commands.Add('removehousekeys', Lang:t('command.remove_keys'), {{name = '
         stash = vector3(House.stash.x, House.stash.y, House.stash.z),
         outfit = vector3(House.outfit.x, House.outfit.y, House.outfit.z),
         logout = vector3(House.logout.x, House.logout.y, House.logout.z),
-        garage = vector3(House.garage.x, House.garage.y, House.garage.z)
+        garage = vector3(House.garage.x, House.garage.y, House.garage.z),
+        spawn = vector4(House.spawn.x, House.spawn.y, House.spawn.z, House.spawn.w)
     }
     SetResourceKvp('Openhouse_'..tostring(ClosestHouseIndex), json.encode(Config.OpenHouses[ClosestHouseIndex]))
     TriggerClientEvent('QBCore:Notify', src, Lang:t('success.remove_keys', {target = Target.PlayerData.charinfo.firstname}), 'success')

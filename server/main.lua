@@ -62,7 +62,8 @@ CreateThread(function()
             stash = vector3(House.stash.x, House.stash.y, House.stash.z),
             outfit = vector3(House.outfit.x, House.outfit.y, House.outfit.z),
             logout = vector3(House.logout.x, House.logout.y, House.logout.z),
-            garage = vector3(House.garage.x, House.garage.y, House.garage.z)
+            garage = vector3(House.garage.x, House.garage.y, House.garage.z),
+            spawn = vector4(House.spawn.x, House.spawn.y, House.spawn.z, House.spawn.w)
         }
     end
     Wait(50)

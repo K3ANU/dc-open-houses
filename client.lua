@@ -2,6 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local ClosestHouse
 local ClosestHouseIndex
 local Blips = {}
+local HouseBlip
 
 local function DrawText3D(x, y, z, text)
     SetTextScale(0.35, 0.35)
