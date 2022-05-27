@@ -1,5 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local ClosestHouse
+local ClosestHouseIndex
 
 local function DrawText3D(x, y, z, text)
     SetTextScale(0.35, 0.35)
@@ -28,9 +29,11 @@ CreateThread(function()
                 if ClosestHouse then
                     if #(PlayerCoords - Config.OpenHouses[i].center) < #(PlayerCoords - ClosestHouse.center) then
                         ClosestHouse = Config.OpenHouses[i]
+                        ClosestHouseIndex = i
                     end
                 else
                     ClosestHouse = Config.OpenHouses[i]
+                    ClosestHouseIndex = i
                 end
             end
         end
@@ -73,4 +76,5 @@ end)
 
 RegisterNetEvent('dc-open-houses:client:sync', function(ServerConfig)
     Config.OpenHouses = ServerConfig
+    if Config.OpenHouses[ClosestHouseIndex] ~= ClosesHouse then ClosestHouse = Config.OpenHouses[ClosestHouseIndex] end
 end)

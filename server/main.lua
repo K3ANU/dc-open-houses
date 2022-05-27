@@ -36,3 +36,7 @@ CreateThread(function()
     Wait(50)
     TriggerClientEvent('dc-open-houses:client:sync', -1, Config.OpenHouses)
 end)
+
+AddEventHandler('playerJoining', function(source)
+    TriggerClientEvent('dc-open-houses:client:sync', source, Config.OpenHouses)
+end)

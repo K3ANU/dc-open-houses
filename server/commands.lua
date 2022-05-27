@@ -1,14 +1,14 @@
 QBCore.Commands.Add('createopenhouse', Lang:t('command.create_house'), {{name = 'House Name', help = Lang:t('command.name_of_house')}, {name = 'Owner CID | ID', help = Lang:t('command.owner_cid')}}, true, function(source, args)
     local src = source
     local HouseName = tostring(args[1])
-    local OwnerCID = QBCore.Functions.GetPlayer(tonumber(args[2])).PlayerData.citizenid or tostring(args[2])
-    local Owner = QBCore.Functions.GetPlayerByCitizenId(OwnerCID)
+    local Owner = QBCore.Functions.GetPlayer(tonumber(args[2]))
+    if not Owner then Owner = QBCore.Functions.GetPlayerByCitizenId(tostring(args[2])) end
     if not Owner then TriggerClientEvent('QBCore:Notify', src, Lang:t('error.owner_not_found'), 'error') return end
     local PlayerCoords = GetEntityCoords(GetPlayerPed(src))
     local AmountOfHouses = (GetResourceKvpInt("Housescount") or 0) + 1
     Config.OpenHouses[AmountOfHouses] = {
         house = HouseName,
-        owner = OwnerCID,
+        owner = Owner.PlayerData.citizenid,
         doors = {},
         keyholders = {},
         center = PlayerCoords,
@@ -20,7 +20,6 @@ QBCore.Commands.Add('createopenhouse', Lang:t('command.create_house'), {{name = 
     SetResourceKvp('Openhouse_'..tostring(AmountOfHouses), json.encode(Config.OpenHouses[AmountOfHouses]))
     SetResourceKvpInt('Housescount', AmountOfHouses)
     TriggerClientEvent('QBCore:Notify', src, Lang:t('success.create_house', {house = HouseName, owner = Owner.PlayerData.charinfo.firstname}), 'success')
-    Wait(50)
     TriggerClientEvent('dc-open-houses:client:sync', -1, Config.OpenHouses)
 end, 'admin')
 
@@ -33,7 +32,6 @@ QBCore.Commands.Add('deleteallhouses', Lang:t('command.delete_all'), {}, false, 
     SetResourceKvpIntNoSync('Housescount', 0)
     FlushResourceKvp()
     Config.OpenHouses = {}
-    Wait(50)
     TriggerClientEvent('dc-open-houses:client:sync', -1, Config.OpenHouses)
 end, 'god')
 
@@ -60,7 +58,6 @@ QBCore.Commands.Add('addstash', Lang:t('command.create_stash'), {}, false, funct
     }
     SetResourceKvp('Openhouse_'..tostring(ClosestHouseIndex), json.encode(Config.OpenHouses[ClosestHouseIndex]))
     TriggerClientEvent('QBCore:Notify', src, Lang:t('success.create_stash', {house = Config.OpenHouses[ClosestHouseIndex].house}), 'success')
-    Wait(50)
     TriggerClientEvent('dc-open-houses:client:sync', -1, Config.OpenHouses)
 end)
 
@@ -87,7 +84,6 @@ QBCore.Commands.Add('addoutfit', Lang:t('command.create_outfit'), {}, false, fun
     }
     SetResourceKvp('Openhouse_'..tostring(ClosestHouseIndex), json.encode(Config.OpenHouses[ClosestHouseIndex]))
     TriggerClientEvent('QBCore:Notify', src, Lang:t('success.create_outfit', {house = Config.OpenHouses[ClosestHouseIndex].house}), 'success')
-    Wait(50)
     TriggerClientEvent('dc-open-houses:client:sync', -1, Config.OpenHouses)
 end)
 
@@ -114,6 +110,5 @@ QBCore.Commands.Add('addlogout', Lang:t('command.create_logout'), {}, false, fun
     }
     SetResourceKvp('Openhouse_'..tostring(ClosestHouseIndex), json.encode(Config.OpenHouses[ClosestHouseIndex]))
     TriggerClientEvent('QBCore:Notify', src, Lang:t('success.create_logout', {house = Config.OpenHouses[ClosestHouseIndex].house}), 'success')
-    Wait(50)
     TriggerClientEvent('dc-open-houses:client:sync', -1, Config.OpenHouses)
 end)
