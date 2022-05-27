@@ -38,7 +38,14 @@ Now either you or the owner can use the commands `addstash`, `addoutfit` or `add
 
 Your `qb-spawn` resource should have the following lines on the client side.
 
-https://github.com/qbcore-framework/qb-spawn/blob/716b376cf1d06a6671cd4c08b7d346acf2d56c8a/client.lua#L57-L62
+```
+            Wait(500)
+            SendNUIMessage({
+                action = "setupLocations",
+                locations = QB.Spawns,
+                houses = myHouses,
+            })
+```
 
 Replace those with the following.
 
