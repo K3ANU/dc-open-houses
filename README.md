@@ -22,7 +22,7 @@ Now use the command `createopenhouse` along with the name of the house <sub>The 
 
 ## 2. Setting up the doors
 
-Go stand in the middle of the door so that the door will be pushed half open. Now use the command `adddoor` along side with an **unique** name <sub>**Copy** the name, you will need it later.</sub>. Now use the `newdoor` command to create a new door inside of `qb-doorlock`. The configuration of the door should look like the following screenshot. Important points being: HouseName should be the name of the house you are in now. Makes it easier to find the doors back inside of `qb-doorlock`. Copied DoorName being the same name you used when doing the `adddoor` command.
+Go stand in the middle of the door so that the door will be pushed half open. Now use the command `adddoor` along side with an **unique** name <sub>**Copy** the name, you will need it later.</sub>. Now use the `newdoor` command to create a new door inside of `qb-doorlock`. The configuration of the door should look like the following screenshot. Important points being: HouseName should be the name of the house you are in now. Makes it easier to find the doors back inside of `qb-doorlock`. Copied DoorName being `HouseName-DoorName`. DoorName being the same name you used when doing the `adddoor` command.
 
 [x] Locked
 [x] Can't Unlock
