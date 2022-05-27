@@ -61,7 +61,7 @@ CreateThread(function()
                 DrawText3D(ClosestHouse.outfit.x, ClosestHouse.outfit.y, ClosestHouse.outfit.z, '~o~E~w~ - '..Lang:t('text.change_outfit'))
                 if IsControlJustPressed(0, 38) then
                     TriggerServerEvent("InteractSound_SV:PlayOnSource", "Clothes1", 0.4)
-                    TriggerEvent('qb-clothing:client:openOutfitMenu')            
+                    TriggerEvent('qb-clothing:client:openOutfitMenu')
                 end
             elseif #(PlayerCoords - ClosestHouse.logout) <= 1.8 then
                 WaitTime = 0
@@ -81,5 +81,5 @@ end)
 
 RegisterNetEvent('dc-open-houses:client:sync', function(ServerConfig)
     Config.OpenHouses = ServerConfig
-    if Config.OpenHouses[ClosestHouseIndex] ~= ClosesHouse then ClosestHouse = Config.OpenHouses[ClosestHouseIndex] end
+    if Config.OpenHouses[ClosestHouseIndex] ~= ClosestHouse then ClosestHouse = Config.OpenHouses[ClosestHouseIndex] end
 end)
