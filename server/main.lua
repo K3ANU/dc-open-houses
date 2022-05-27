@@ -46,10 +46,10 @@ CreateThread(function()
     local Doors = {}
     for i = 1, Lenght do
         local House = json.decode(GetResourceKvpString('Openhouse_'..tostring(i)))
-        for i = 1, #House.doors do
-            Doors[i] = {
-                name = House.doors[i].name,
-                coords = vector3(House.doors[i].coords.x, House.doors[i].coords.y, House.doors[i].coords.z),
+        for b = 1, #House.doors do
+            Doors[b] = {
+                name = House.doors[b].name,
+                coords = vector3(House.doors[b].coords.x, House.doors[b].coords.y, House.doors[b].coords.z),
                 locked = true
             }
         end
