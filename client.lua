@@ -52,19 +52,24 @@ CreateThread(function()
                 WaitTime = 0
                 DrawText3D(ClosestHouse.stash.x, ClosestHouse.stash.y, ClosestHouse.stash.z, '~o~E~w~ - '..Lang:t('text.open_stash'))
                 if IsControlJustPressed(0, 38) then
-                    QBCore.Functions.Notify('TextHere', 'error', 7500)
+                    TriggerServerEvent("inventory:server:OpenInventory", "stash", ClosestHouse.house)
+                    TriggerEvent("inventory:client:SetCurrentStash", ClosestHouse.house)
+                    TriggerServerEvent("InteractSound_SV:PlayOnSource", "StashOpen", 0.4)
                 end
             elseif #(PlayerCoords - ClosestHouse.outfit) <= 1.8 then
                 WaitTime = 0
                 DrawText3D(ClosestHouse.outfit.x, ClosestHouse.outfit.y, ClosestHouse.outfit.z, '~o~E~w~ - '..Lang:t('text.change_outfit'))
                 if IsControlJustPressed(0, 38) then
-                    QBCore.Functions.Notify('TextHere', 'error', 7500)
+                    TriggerServerEvent("InteractSound_SV:PlayOnSource", "Clothes1", 0.4)
+                    TriggerEvent('qb-clothing:client:openOutfitMenu')            
                 end
             elseif #(PlayerCoords - ClosestHouse.logout) <= 1.8 then
                 WaitTime = 0
                 DrawText3D(ClosestHouse.logout.x, ClosestHouse.logout.y, ClosestHouse.logout.z, '~o~E~w~ - '..Lang:t('text.change_char'))
                 if IsControlJustPressed(0, 38) then
-                    QBCore.Functions.Notify('TextHere', 'error', 7500)
+                    DoScreenFadeOut(250)
+                    while not IsScreenFadedOut() do Wait(0) end
+                    TriggerServerEvent('qb-houses:server:LogoutLocation')
                 end
             end
         else
