@@ -20,7 +20,7 @@ end
 CreateThread(function()
     local Lenght = GetResourceKvpInt("Housescount") or 0
     for i = 1, Lenght do
-        House = json.decode(GetResourceKvpString('Openhouse_'..tostring(i)))
+        local House = json.decode(GetResourceKvpString('Openhouse_'..tostring(i)))
         Config.OpenHouses[i] = {
             house = House.house,
             owner = House.owner,
