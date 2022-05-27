@@ -19,21 +19,25 @@ local function DrawText3D(x, y, z, text)
     ClearDrawOrigin()
 end
 
+local function CreateHouseBlip(coords, name)
+    local blip = AddBlipForCoord(coords)
+    SetBlipSprite(blip, 40)
+    SetBlipDisplay(blip, 4)
+    SetBlipScale(blip, 0.65)
+    SetBlipAsShortRange(blip, true)
+    SetBlipColour(blip, 3)
+    BeginTextCommandSetBlipName('STRING')
+    AddTextComponentSubstringPlayerName(name)
+    EndTextCommandSetBlipName(blip)
+    return blip
+end
+
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
     local CitizenID = QBCore.Functions.GetPlayerData().citizenid
     for i = 1, #Config.OpenHouses do
         if Config.OpenHouses[i].owner == CitizenID then
             local House = Config.OpenHouses[i]
-            HouseBlip = AddBlipForCoord(House.center)
-            SetBlipSprite(HouseBlip, 40)
-            SetBlipDisplay(HouseBlip, 4)
-            SetBlipScale(HouseBlip, 0.65)
-            SetBlipAsShortRange(HouseBlip, true)
-            SetBlipColour(HouseBlip, 3)
-            BeginTextCommandSetBlipName('STRING')
-            AddTextComponentSubstringPlayerName(House.house)
-            EndTextCommandSetBlipName(HouseBlip)
-            Blips[#Blips+1] = HouseBlip
+            Blips[#Blips+1] = CreateHouseBlip(House.center, House.house)
         end
     end
 end)
@@ -45,16 +49,7 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
 end)
 
 RegisterNetEvent('dc-open-houses:client:CreateBlip', function(HouseCoords, HouseName)
-    HouseBlip = AddBlipForCoord(HouseCoords)
-    SetBlipSprite(HouseBlip, 40)
-    SetBlipDisplay(HouseBlip, 4)
-    SetBlipScale(HouseBlip, 0.65)
-    SetBlipAsShortRange(HouseBlip, true)
-    SetBlipColour(HouseBlip, 3)
-    BeginTextCommandSetBlipName('STRING')
-    AddTextComponentSubstringPlayerName(HouseName)
-    EndTextCommandSetBlipName(HouseBlip)
-    Blips[#Blips+1] = HouseBlip
+    Blips[#Blips+1] = CreateHouseBlip(HouseCoords, HouseName)
 end)
 
 RegisterNetEvent('dc-open-houses:client:DeleteBlip', function(HouseCoords)
