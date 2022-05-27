@@ -18,7 +18,7 @@ local function DrawText3D(x, y, z, text)
 end
 
 --- Check if the player is nearby an open house. To prevent all the other threads to keep running all the time.
---- If you have really big houses increase the range down below at line 11.
+--- If you have really big houses increase the range down below.
 CreateThread(function()
     while true do
         local PlayerCoords = GetEntityCoords(PlayerPedId())
