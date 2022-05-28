@@ -35,7 +35,7 @@ Go stand in the middle of the door so that the door will be pushed half open. No
 
 ## 3. Setting up interactions
 
-Now either you or the owner can use the commands `addstash`, `addoutfit` or `addlogout`.
+Now either you or the owner can use the commands `addstash`, `addoutfit`, `addlogout`, `addgarageopen`, `givehousekeys` or `removehousekeys`
 
 ## How to add owned houses as spawn locations?
 
