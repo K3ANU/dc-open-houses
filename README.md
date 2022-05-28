@@ -15,6 +15,7 @@ You can always find support [here](https://discord.gg/SqRsSsSskg) in our Discord
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N4BE29E)
 
 If you ever see the higlighted folder down below, don't delete it. It isn't your server cache. It's where your houses are stored.
+
 ![image](https://media.discordapp.net/attachments/967850345306914826/980229979864436786/unknown.png?width=120&height=63)
 
 ## 1. Creating the house
