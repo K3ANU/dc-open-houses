@@ -86,11 +86,13 @@ CreateThread(function()
     end
 end)
 
+--- Basic house interactions: stash, outfit, logout and garage.
 CreateThread(function()
     while true do
         local WaitTime
         if ClosestHouse then
-            local PlayerCoords = GetEntityCoords(PlayerPedId())
+            local Ped = PlayerPedId()
+            local PlayerCoords = GetEntityCoords(Ped)
             WaitTime = 700
             if #(PlayerCoords - ClosestHouse.stash) <= 1.6 then
                 WaitTime = 0
@@ -115,6 +117,44 @@ CreateThread(function()
                     while not IsScreenFadedOut() do Wait(0) end
                     TriggerServerEvent('qb-houses:server:LogoutLocation')
                 end
+            elseif #(PlayerCoords - ClosestHouse.garage) <= 1.6 then
+                WaitTime = 0
+                if IsPedInAnyVehicle(Ped, false) then
+                    DrawText3D(ClosestHouse.garage.x, ClosestHouse.garage.y, ClosestHouse.garage.z, '~o~E~w~ - '..Lang:t('text.store_car'))
+                    if IsControlJustPressed(0, 38) then
+                        local Vehicle = GetVehiclePedIsIn(Ped, false)
+                        local VehicleFuel = GetVehicleFuelLevel(Vehicle)
+                        local VehicleProps = QBCore.Functions.GetVehicleProperties(Vehicle)
+                        TriggerServerEvent('dc-open-houses:server:StoreCar', VehicleFuel, VehicleProps)
+                    end
+                else
+                    DrawText3D(ClosestHouse.garage.x, ClosestHouse.garage.y, ClosestHouse.garage.z, '~o~E~w~ - '..Lang:t('text.retrieve_car'))
+                    if IsControlJustPressed(0, 38) then
+                        QBCore.Functions.TriggerCallback('dc-open-houses:callback:PullVehicles', function(result)
+                            if not result then QBCore.Functions.Notify(Lang:t('error.no_vehicles'), 'error') return end
+                            for i = 1, #result do
+                                local VehicleMenu = {
+                                    {
+                                        header = result[i].house,
+                                        isMenuHeader = true
+                                    }
+                                }
+                                VehicleMenu[#VehicleMenu + 1] = {
+                                    header = result[i].name,
+                                    txt = Lang:t('text.vehicle_info', {engine = result[i].engine, fuel = result[i].fuel, plate = result[i].plate}),
+                                    params = {
+                                        event = 'dc-open-houses:server:RetrieveCar',
+                                        isServer = true,
+                                        args = {
+                                            plate = result[i].plate
+                                        }
+                                    }
+                                }
+                                exports['qb-menu']:openMenu(VehicleMenu)                            
+                            end
+                        end)
+                    end
+                end
             end
         else
             WaitTime = 2000
@@ -123,6 +163,7 @@ CreateThread(function()
     end
 end)
 
+--- Local door simulation so the owner can add keyholders himself. Not possible entirely inside of qb-doorlock itself.
 CreateThread(function()
     while true do
         local WaitTime
@@ -155,4 +196,13 @@ end)
 RegisterNetEvent('dc-open-houses:client:sync', function(ServerConfig)
     Config.OpenHouses = ServerConfig
     if Config.OpenHouses[ClosestHouseIndex] ~= ClosestHouse then ClosestHouse = Config.OpenHouses[ClosestHouseIndex] end
+end)
+
+RegisterNetEvent('dc-open-houses:client:SetVehicle', function(Vehicle, VehicleEngine, VehicleFuel, VehicleMods)
+    local Vehicle = NetworkGetEntityFromNetworkId(Vehicle)
+    SetVehicleEngineHealth(Vehicle, VehicleEngine)
+    SetVehicleFuelLevel(Vehicle, VehicleFuel)
+    SetVehicleEngineOn(Vehicle, true, true)
+    SetVehicleRadioEnabled(Vehicle, false)
+    QBCore.Functions.SetVehicleProperties(Vehicle, VehicleMods)
 end)
