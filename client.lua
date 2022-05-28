@@ -150,7 +150,7 @@ CreateThread(function()
                                         }
                                     }
                                 }
-                                exports['qb-menu']:openMenu(VehicleMenu)                            
+                                exports['qb-menu']:openMenu(VehicleMenu)
                             end
                         end)
                     end
@@ -198,8 +198,8 @@ RegisterNetEvent('dc-open-houses:client:sync', function(ServerConfig)
     if Config.OpenHouses[ClosestHouseIndex] ~= ClosestHouse then ClosestHouse = Config.OpenHouses[ClosestHouseIndex] end
 end)
 
-RegisterNetEvent('dc-open-houses:client:SetVehicle', function(Vehicle, VehicleEngine, VehicleFuel, VehicleMods)
-    local Vehicle = NetworkGetEntityFromNetworkId(Vehicle)
+RegisterNetEvent('dc-open-houses:client:SetVehicle', function(VehicleID, VehicleEngine, VehicleFuel, VehicleMods)
+    local Vehicle = NetworkGetEntityFromNetworkId(VehicleID)
     SetVehicleEngineHealth(Vehicle, VehicleEngine)
     SetVehicleFuelLevel(Vehicle, VehicleFuel)
     SetVehicleEngineOn(Vehicle, true, true)
