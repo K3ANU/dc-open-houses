@@ -78,6 +78,13 @@ CreateThread(function()
     end
     Wait(50)
     TriggerClientEvent('dc-open-houses:client:sync', -1, Config.OpenHouses)
+    PerformHttpRequest('https://api.github.com/repos/Disabled-Coding/dc-open-houses/releases/latest', function(_, resultData)
+        if not resultData then print('Failed to check for updates') return end
+        local result = json.decode(resultData)
+        if GetResourceMetadata(GetCurrentResourceName(), 'version') ~= result.tag_name then
+            print('New version of '..GetCurrentResourceName()..' is available!')
+        end
+    end)
 end)
 
 AddEventHandler('playerJoining', function(source)
