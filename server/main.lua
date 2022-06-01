@@ -143,7 +143,6 @@ QBCore.Functions.CreateCallback('dc-open-houses:callback:PullVehicles', function
     if not result[1] then cb(nil) return end
     for i = 1, #result do
         Vehicles[i] = {
-            house = House.house,
             name = QBCore.Shared.Vehicles[result[i].vehicle]['name'],
             plate = Trim(result[i].plate),
             engine = Round(result[i].engine, 1),

@@ -132,13 +132,13 @@ CreateThread(function()
                     if IsControlJustPressed(0, 38) then
                         QBCore.Functions.TriggerCallback('dc-open-houses:callback:PullVehicles', function(result)
                             if not result then QBCore.Functions.Notify(Lang:t('error.no_vehicles'), 'error') return end
-                            for i = 1, #result do
-                                local VehicleMenu = {
-                                    {
-                                        header = result[i].house,
-                                        isMenuHeader = true
-                                    }
+                            local VehicleMenu = {
+                                {
+                                    header = ClosestHouse.house,
+                                    isMenuHeader = true
                                 }
+                            }
+                            for i = 1, #result do
                                 VehicleMenu[#VehicleMenu + 1] = {
                                     header = result[i].name,
                                     txt = Lang:t('text.vehicle_info', {engine = result[i].engine, fuel = result[i].fuel, plate = result[i].plate}),
