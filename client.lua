@@ -31,6 +31,11 @@ local function CreateHouseBlip(coords, name)
     return blip
 end
 
+local function Round(num, numDecimalPlaces)
+    local mult = 10^(numDecimalPlaces or 0)
+    return math.floor(num * mult + 0.5) / mult
+end
+
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
     local CitizenID = QBCore.Functions.GetPlayerData().citizenid
     for i = 1, #Config.OpenHouses do
@@ -150,8 +155,8 @@ CreateThread(function()
                                         }
                                     }
                                 }
-                                exports['qb-menu']:openMenu(VehicleMenu)
                             end
+                            exports['qb-menu']:openMenu(VehicleMenu)
                         end)
                     end
                 end
@@ -205,4 +210,20 @@ RegisterNetEvent('dc-open-houses:client:SetVehicle', function(VehicleID, Vehicle
     SetVehicleEngineOn(Vehicle, true, true)
     SetVehicleRadioEnabled(Vehicle, false)
     QBCore.Functions.SetVehicleProperties(Vehicle, VehicleMods)
+end)
+
+RegisterNetEvent('dc-open-houses:client:viewallhouses', function(Data)
+    local HousesMenu = {
+        {
+            header = Lang:t('text.all_houses'),
+            isMenuHeader = true
+        }
+    }
+    for i = 1, #Data do
+        HousesMenu[#HousesMenu + 1] = {
+            header = Data[i].house,
+            txt = Lang:t('text.house_info', {owner = Data[i].owner, center = Round(Data[i].center.x, 2)..', '..Round(Data[i].center.y, 2)..', '..Round(Data[i].center.z, 2)}),
+        }
+    end
+    exports['qb-menu']:openMenu(HousesMenu)
 end)

@@ -35,6 +35,8 @@ local Translations = {
         ['store_car'] = 'Store Car',
         ['retrieve_car'] = 'Retrieve Car',
         ['vehicle_info'] = 'Plate: %{plate} | Engine: %{engine} | Fuel: %{fuel}',
+        ['all_houses'] = 'All houses',
+        ['house_info'] = 'Owner: %{owner} | Location: %{center}',
     },
     command = {
         ['create_house'] = 'Create an open interior house. Your current location should be the center of the house',
@@ -51,6 +53,7 @@ local Translations = {
         ['target_keys'] = 'The citizenid of the target (Case sensitive) or server id',
         ['remove_keys'] = 'Remove keys from someone else at the current house you are at',
         ['delete_house'] = 'Delete a specific house',
+        ['viewallhouses'] = 'View all the houses on this server',
     }
 }
 

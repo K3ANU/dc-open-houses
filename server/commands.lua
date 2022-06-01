@@ -312,3 +312,7 @@ QBCore.Commands.Add('removehousekeys', Lang:t('command.remove_keys'), {{name = '
     TriggerClientEvent('QBCore:Notify', src, Lang:t('success.remove_keys', {target = Target.PlayerData.charinfo.firstname}), 'success')
     TriggerClientEvent('dc-open-houses:client:sync', -1, Config.OpenHouses)
 end)
+
+QBCore.Commands.Add('viewallhouses', Lang:t('command.viewallhouses'), {}, false, function(source)
+    TriggerClientEvent('dc-open-houses:client:viewallhouses', source, Config.OpenHouses)
+end, 'god')
