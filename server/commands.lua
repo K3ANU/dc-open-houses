@@ -203,7 +203,14 @@ QBCore.Commands.Add('adddoor', Lang:t('command.create_door'), {{name = 'Door Nam
     if not ClosestHouse then TriggerClientEvent('QBCore:Notify', src, Lang:t('error.not_nearby_house'), 'error') return end
 
     local House = json.decode(GetResourceKvpString('Openhouse_'..tostring(ClosestHouseIndex)))
-    local Doors = House.doors or {}
+    local Doors = {}
+    for i = 1, #House.doors do
+        Doors[i] = {
+            name = House.doors[i].name,
+            coords = vector3(House.doors[i].coords.x, House.doors[i].coords.y, House.doors[i].coords.z),
+            locked = House.doors[i].locked
+        }
+    end
     Doors[#Doors + 1] = {
         name = tostring(args[1]),
         coords = GetEntityCoords(GetPlayerPed(src)),

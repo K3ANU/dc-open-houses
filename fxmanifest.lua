@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'Disabled Coding'
 description 'A houses resource meant for MLOs and Ymaps'
-version '1.1.0'
+version '1.2.0'
 repository 'https://github.com/Disabled-Coding/dc-open-houses'
 
 shared_scripts {
