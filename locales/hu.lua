@@ -39,7 +39,7 @@ local Translations = {
         ['house_info'] = 'Tulajdonos: %{owner} | Helyszín: %{center}',
     },
     command = {
-        ['create_house'] = 'Nyitott belső ház létrehozása. Az Ön jelenlegi tartózkodási helye a ház közepe legyen."
+        ['create_house'] = 'Nyitott belső ház létrehozása. Az Ön jelenlegi tartózkodási helye a ház közepe legyen.',
         ['name_of_house'] = 'A ház neve (Egyedi) (Kis- és nagybetűk megkülönböztetése)',
         ['owner_cid'] = 'A tulajdonos állampolgársága (kis- és nagybetűk megkülönböztetése) vagy a szerver azonosítója',
         ['delete_all'] = 'Az összes létező ház törlése',
